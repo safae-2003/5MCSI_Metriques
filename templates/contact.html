@@ -5,7 +5,130 @@
 </head>
 <body>
     <h1>Ma Page de Contact</h1>
-    <p>Bienvenue dans ma page de contact !</p>
+    <p>Bienvenue dans ma pag<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact - Safae Ouaanna</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6dd5fa, #2980b9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .contact-box {
+            background: #ffffff;
+            padding: 40px 50px;
+            border-radius: 18px;
+            width: 480px;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #2980b9;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1.5px solid #b5c7d3;
+            margin-top: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background-color: #3498db;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2179b8;
+            transform: scale(1.03);
+        }
+
+        .message-ok {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #c8f7c5;
+            border-left: 5px solid #2ecc71;
+            font-size: 14px;
+            color: #155724;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="contact-box">
+    <h1>Contactez-moi 📩</h1>
+
+    {% if success %}
+    <div class="message-ok">Merci ! Votre message a bien été envoyé ✔</div>
+    {% endif %}
+
+    <form method="POST" action="/contact/">
+        <div class="input-group">
+            <label>Nom complet :</label>
+            <input type="text" name="name" required placeholder="Votre nom">
+        </div>
+
+        <div class="input-group">
+            <label>Email :</label>
+            <input type="email" name="email" required placeholder="Votre adresse email">
+        </div>
+
+        <div class="input-group">
+            <label>Message :</label>
+            <textarea name="message" required placeholder="Votre message..."></textarea>
+        </div>
+
+        <button type="submit">Envoyer ✈</button>
+    </form>
+</div>
+
+</body>
+</html>
+e de contact !</p>
     <p>Email : safae.ouaanna@gmail.com</p>
 </body>
 </html>
