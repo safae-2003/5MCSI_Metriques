@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Spotify</title>
+</head>
+<body>
+
+<h1>Top Spotify 🎧</h1>
+
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Artiste</th>
+            <th>Année</th>
+        </tr>
+    </thead>
+    <tbody id="table-content"></tbody>
+</table>
+
+<script>
+fetch('/api/spotify/')
+.then(r => r.json())
+.then(data => {
+
+    let html = "";
+    data.forEach(item => {
+        html += `<tr>
+                    <td>${item.titre}</td>
+                    <td>${item.artiste}</td>
+                    <td>${item.annee}</td>
+                 </tr>`;
+    });
+
+    document.getElementById('table-content').innerHTML = html;
+});
+</script>
+
+</body>
+</html>
