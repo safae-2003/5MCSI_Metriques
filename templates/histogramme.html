@@ -1,40 +1,46 @@
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Histogramme Tawarano</title>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Histogramme des températures</title>
+
+    <!-- Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  </head>
-  <body>
-    <h2>Histogramme des températures de Tawarano</h2>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-    <script>
-      google.charts.load("current", { packages: ["corechart"] });
-      google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        fetch('/tawarano/')
-          .then(response => response.json())
-          .then(data => {
-            var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn("string", "Date");
-            dataTable.addColumn("number", "Température");
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
 
-            data.results.forEach(entry => {
-              var date = new Date(entry.Jour * 1000);
-              dataTable.addRow([date.toLocaleDateString(), entry.temp]);
-            });
+        async function drawChart() {
+            // Récupération des données depuis la route JSON
+            const response = await fetch('/extract-minutes/2024-02-11T10:00:00Z');
+            const data_json = await response.json();
 
-            var options = {
-              title: "Températures (°C)",
-              legend: { position: "none" },
-              hAxis: { title: "Date" },
-              vAxis: { title: "Température (°C)" }
+            // Exemple : données fictives basées sur ton API
+            const data = google.visualization.arrayToDataTable([
+                ['Jour', 'Température'],
+                ['J1', 10], ['J2', 11], ['J3', 12], ['J4', 9], ['J5', 13],
+                ['J6', 14], ['J7', 12], ['J8', 11], ['J9', 10], ['J10', 12]
+            ]);
+
+            const options = {
+                title: 'Histogramme des températures de Tawara',
+                legend: {position: 'none'},
+                colors: ['#1e88e5'],
+                hAxis: {title: 'Jours'},
+                vAxis: {title: 'Température (°C)'}
             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
-            chart.draw(dataTable, options);
-          });
-      }
+            const chart = new google.visualization.ColumnChart(
+                document.getElementById('chart_div')
+            );
+            chart.draw(data, options);
+        }
     </script>
-  </body>
+</head>
+
+<body>
+    <h2>Histogramme des températures de Tawara</h2>
+    <div id="chart_div" style="width:100%; height:500px;"></div>
+</body>
 </html>
