@@ -1,47 +1,43 @@
-from flask import Flask, render_template, jsonify
-import json
+from flask import Flask, render_template, jsonify, request
 from datetime import datetime
 from urllib.request import urlopen
+import sqlite3
 
 app = Flask(__name__)
 
-# Route principale - page d'accueil
 @app.route('/')
 def hello_world():
     return render_template('hello.html')
 
-
-# Route exercice 2 : page contact
-@app.route('/contact/')
+# ---- Route page Contact (formulaire) ----
+@app.route('/contact/', methods=['GET', 'POST'])
 def contact():
-    return render_template('contact.html')
+    if request.method == 'POST':
+        print("Message reçu !")
+        print("Nom :", request.form['name'])
+        print("Email :", request.form['email'])
+        print("Message :", request.form['message'])
+        return render_template("contact.html", success=True)
 
+    return render_template("contact.html", success=False)
 
-# Route exercice 3 : API météo (Tawarano)
-@app.route('/tawarano/')
-def meteo():
-    response = urlopen('https://samples.openweathermap.org/data/2.5/forecast?lat=0&lon=0&appid=xxx')
-    raw_content = response.read()
-    json_content = json.loads(raw_content.decode('utf-8'))
-    results = []
-    for list_element in json_content.get('list', []):
-        dt_value = list_element.get('dt')
-        temp_day_value = list_element.get('main', {}).get('temp') - 273.15  # Conversion Kelvin → °C
-        results.append({'Jour': dt_value, 'temp': temp_day_value})
-    return jsonify(results=results)
-
-
-# Route exercice 3 BIS : affichage du graphique
+# ---- Route Graphique ----
 @app.route("/rapport/")
 def mongraphique():
     return render_template("graphique.html")
 
-
-# Route exercice 4 : histogramme
+# ---- Route Histogramme ----
 @app.route("/histogramme/")
 def histogramme():
     return render_template("histogramme.html")
 
+
+# ---- API : Extraire des minutes d'une date (EXO 6) ----
+@app.route('/extract-minutes/<date_string>')
+def extract_minutes(date_string):
+    date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
+    minutes = date_object.minute
+    return jsonify({'minutes': minutes})
 
 if __name__ == "__main__":
     app.run(debug=True)
