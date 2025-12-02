@@ -1,42 +1,51 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Metrique</title>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  </head>
-  <body>
-    <div id="chart_div"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Graphique</title>
+
+    <!-- API Google Charts -->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
     <script>
-      google.charts.load('current', { packages: ['corechart'] });
-      google.charts.setOnLoadCallback(drawBackgroundColor);
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
 
-      function drawBackgroundColor() {
-        function drawChart(data) {
-          var dataTable = new google.visualization.DataTable();
-          dataTable.addColumn('string', 'Date');
-          dataTable.addColumn('number', 'Valeur');
-
-          data.results.forEach(entry => {
-            var date = new Date(entry.Jour * 1000);
-            dataTable.addRow([date.toLocaleDateString(), entry.temp]);
-          });
-
-          var options = {
-            title: 'Évolution des températures de la ville de Tawarano',
-            curveType: 'function',
-            legend: { position: 'bottom' }
-          };
-
-          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-          chart.draw(dataTable, options);
-        }
+    function drawChart() {
 
         fetch('/tawarano/')
-          .then(response => response.json())
-          .then(data => {
-            drawChart(data);
-          })
-      }
+        .then(response => response.json())
+        .then(data => {
+
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Jour');
+            dataTable.addColumn('number', 'Temp');
+
+            data.forEach((item) => {
+                dataTable.addRow([item.date, item.temp]);
+            });
+
+            var options = {
+                title: 'Évolution des températures de la ville de Tawara',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(
+                document.getElementById('chart_div')
+            );
+
+            chart.draw(dataTable, options);
+        });
+    }
     </script>
-  </body>
+
+</head>
+<body>
+
+    <h2>Évolution des températures</h2>
+
+    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+
+</body>
 </html>
